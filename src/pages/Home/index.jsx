@@ -16,7 +16,7 @@ const Home = () => {
 
     const [viewStats, setViewStats] = useState({
         page: 0,
-        postsPerPage: 2,
+        postsPerPage: 6,
     });
 
     const [posts, setPosts] = useState([]);
