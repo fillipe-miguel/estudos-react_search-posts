@@ -5,12 +5,15 @@ import { loadPosts } from "../../utils/loadPosts";
 
 // Components
 import { Posts } from "../../components/Posts";
+import { Button } from "../../components/Button";
+import { TextInput } from "../../components/TextInput";
 
 // Styles
 import "./styles.css";
-import { Button } from "../../components/Button";
 
 const Home = () => {
+    const [searchPhrase, setSearchPhrase] = useState("");
+
     const [viewStats, setViewStats] = useState({
         page: 0,
         postsPerPage: 2,
@@ -21,6 +24,12 @@ const Home = () => {
 
     const noMorePosts =
         viewStats.page + viewStats.postsPerPage >= allPosts.length;
+
+    const postFiltered = !!searchPhrase
+        ? allPosts.filter((post) =>
+              post.title.toLowerCase().includes(searchPhrase.toLowerCase())
+          )
+        : posts;
 
     useEffect(() => {
         loadPostsHere();
@@ -48,14 +57,32 @@ const Home = () => {
         setViewStats({ ...viewStats, page: nextPage });
     };
 
+    const handleSearchChange = (e) => {
+        const { value } = e.target;
+        setSearchPhrase(value);
+    };
+
     return (
         <section className="container">
-            <Posts posts={posts} />
-            <div className="button-container">
-                <Button disabled={noMorePosts} onClick={loadMorePosts}>
-                    Carregar Mais posts
-                </Button>
+            <div className="search-container">
+                <TextInput onChange={handleSearchChange} value={searchPhrase} />
             </div>
+
+            {postFiltered.length > 0 && <Posts posts={postFiltered} />}
+
+            {postFiltered.length === 0 && (
+                <h1>Não há resultado para sua pesquisa =/</h1>
+            )}
+
+            {!searchPhrase && (
+                <>
+                    <div className="button-container">
+                        <Button disabled={noMorePosts} onClick={loadMorePosts}>
+                            Carregar Mais posts
+                        </Button>
+                    </div>
+                </>
+            )}
         </section>
     );
 };
