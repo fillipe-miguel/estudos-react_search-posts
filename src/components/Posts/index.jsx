@@ -4,7 +4,7 @@ import { PostCard } from "../PostCard";
 // Styles
 import "./styles.css";
 
-export const Posts = ({ posts }) => (
+export const Posts = ({ posts = [] }) => (
     <div className="posts">
         {posts.map((post) => (
             <PostCard
@@ -12,7 +12,6 @@ export const Posts = ({ posts }) => (
                 title={post.title}
                 cover={post.cover}
                 body={post.body}
-                id={post.id}
             />
         ))}
     </div>
