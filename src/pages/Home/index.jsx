@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // Arquivos JS
 import { loadPosts } from "../../utils/loadPosts";
 
 // Components
-import { Posts } from "../../components/Posts";
-import { Button } from "../../components/Button";
-import { TextInput } from "../../components/TextInput";
+import { Posts, Button, TextInput } from "../../components";
 
 // Styles
 import "./styles.css";
@@ -31,17 +29,18 @@ const Home = () => {
           )
         : posts;
 
-    useEffect(() => {
-        loadPostsHere();
-    }, []);
-
     // Preciso fazer uma funçao aqui para que consiga usar o await
     // Poderia passar a função direto dentro do useEffect mas para organizar é melhor aqui
-    const loadPostsHere = async () => {
+    const handleLoadPosts = useCallback(async (viewStats) => {
         const postsAndPhotos = await loadPosts();
         setAllPosts(postsAndPhotos);
         setPosts(postsAndPhotos.slice(viewStats.page, viewStats.postsPerPage));
-    };
+    }, []);
+
+    // ISSO AQUI NÃO SEI O QUE ESTÁ ACONTECENDO AQUI !!!!!!!!
+    useEffect(() => {
+        handleLoadPosts({ page: 0, postsPerPage: viewStats.postsPerPage });
+    }, [handleLoadPosts, viewStats.postsPerPage]);
 
     // Gambi para fazer paginação
     const loadMorePosts = () => {
