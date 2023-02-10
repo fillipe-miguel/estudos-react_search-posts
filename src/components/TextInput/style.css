@@ -1,17 +1,17 @@
 .text-input {
-    width: 100%;
-    font-size: 25px;
-    padding: 10px;
-    outline: none;
-    border: none;
-    background-color: #777;
-    color: white;
+  width: 100%;
+  font-size: 25px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  background-color: #777;
+  color: white;
 }
 
 .text-input::placeholder {
-    color: white;
+  color: white;
 }
 
 .text-input::selection {
-    background-color: black;
+  background-color: black;
 }
